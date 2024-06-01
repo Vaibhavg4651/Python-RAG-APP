@@ -2,4 +2,29 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 1rem 0rem;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+  width: 100%;
+}
+
+.logo{
+  padding: 0rem 1.4rem;
+}
+
+.Text-input{
+  display: flex;
+  align-items:center;
+  justify-content: center;
+  bottom: 30px;
+  left: 45%;
+  position: absolute;
+}
+
+.input-bar input{
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 5px;
+  margin-right: 1rem;
 }
