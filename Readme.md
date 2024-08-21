@@ -2,7 +2,7 @@
 
 This FastAPI application implements a Retrieval-Augmented Generation (RAG) system using langchain components, OpenAI, and pgvector for document storage and retrieval. The application supports document uploading, retrieval, and deletion, and provides a chat interface for interacting with stored documents.
 
-`Installation`
+Installation<br>
 Clone the Repository
 
 
@@ -23,7 +23,7 @@ bash
     source venv/bin/activate
     
 ```
-`Install Dependencies`
+### Install Dependencies ###
 
 bash
 ```
@@ -34,7 +34,7 @@ bash
 
 ## Create a .env file in the root directory with the following content: ##
 
-Copy code
+
 ```
     DB_HOST=your_database_host
     DB_USER=your_database_user
@@ -44,10 +44,10 @@ Copy code
     OPENAI_API_KEY=your_openai_api_key
 ```
 
-`Usage`
+
 Start the Server
 
-bash
+
 ```
     uvicorn main:app --reload
     The server will be running at http://127.0.0.1:8000.
@@ -111,6 +111,7 @@ Errors:
 ```
 
 `Get Documents by IDs`
+
 POST /get-documents-by-ids/
 
 Retrieves documents based on a list of IDs.
