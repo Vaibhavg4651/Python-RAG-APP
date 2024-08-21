@@ -3,15 +3,15 @@ import './App.css'
 import Navbar from './Navbar'
 
 function App() {
-  const [count, setCount] = useState(0)
+  let isuploaded = localStorage.getItem('isUploaded')
+  console.log(isuploaded)
 
   return (
     <>
       <Navbar />
       <div className='Text-input'>
         <div className='input-bar'>
-          <input  type="text" placeholder='Send a message...'/>
-          <img src="" alt="" />
+          {isuploaded=== 'false' ? <input type="text" id="myDisabledInput" placeholder='Send a message...' disabled/> : <input type="text" id="myInput" placeholder='Send a message...'/>}
         </div>
       </div>
     </>

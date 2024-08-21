@@ -4,7 +4,7 @@
   align-items: center;
   padding: 1rem 0rem;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
-  width: 100%;
+  width: 96rem;
 }
 
 .logo{
@@ -16,8 +16,13 @@
   align-items:center;
   justify-content: center;
   bottom: 30px;
-  left: 45%;
+  left: 7%;
   position: absolute;
+}
+
+
+.input-bar{
+  width: 80rem;
 }
 
 .input-bar input{
@@ -27,4 +32,59 @@
   border: none;
   border-radius: 5px;
   margin-right: 1rem;
+  border: 1px solid rgba(228, 232, 238, 1)
+}
+
+#myDisabledInput{
+  background-color: rgb(246,247,249);
+  background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjIiIGhlaWdodD0iMjIiIHZpZXdCb3g9IjAgMCAyMiAyMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTIwLjE2NjcgMTFMMi43NSAxOC4zMzMzTDYuMDE2MDggMTFMMi43NSAzLjY2NjY2TDIwLjE2NjcgMTFaTTIwLjE2NjcgMTFINS45NTgzMyIgc3Ryb2tlPSJyZ2IoMTk4LDIwMSwyMDgpIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPC9zdmc+') no-repeat right 10px center;
+  background-size: 20px;
+}
+
+#myDisabledInput::placeholder{
+  color: rgb(198,201,208);
+}
+
+#myInput{
+  background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjIiIGhlaWdodD0iMjIiIHZpZXdCb3g9IjAgMCAyMiAyMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTIwLjE2NjcgMTFMMi43NSAxOC4zMzMzTDYuMDE2MDggMTFMMi43NSAzLjY2NjY2TDIwLjE2NjcgMTFaTTIwLjE2NjcgMTFINS45NTgzMyIgc3Ryb2tlPSIjMjIyMjIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPC9zdmc+') no-repeat right 10px center;
+  background-size: 20px;
+}
+
+#myInput::placeholder{
+  color: rgb(110,117,131);
+}
+
+.upload-div{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  border: 1px solid rgba(0, 0, 0, 1);
+  border-radius: 8px;
+  position: relative;
+  width: 10rem;
+  height: 3rem;
+  margin-right: 1rem;
+  cursor: pointer;
+}
+
+#fileInput{
+  position: absolute;
+  opacity: 0;
+  z-index: 5;
+  width: 96%;
+  height: 98%;
+  cursor: pointer;
+}
+
+.custom-file-input {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  z-index: 0;
+}
+
+.upload-icon{
+  margin-right: 4px;
 }
