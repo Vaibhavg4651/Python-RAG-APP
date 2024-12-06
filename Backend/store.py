@@ -1,38 +1,55 @@
-import asyncio
-import time
-from typing import Any, Optional
-from langchain_community.embeddings import OpenAIEmbeddings
-from langchain_community.vectorstores.pgvector import PGVector
-from langchain_core.documents import Document
-from langchain_core.runnables.config import run_in_executor
-from sqlalchemy.orm import Session
+from OpenAI import get_embedding
+from pinecone import Pinecone, ServerlessSpec
+from config import PINECONE_CLIENT
 
-def get_vector_store(
-    connection_string: str,
-    embeddings: OpenAIEmbeddings,
-    collection_name: str,
-    mode: str = "async",
-):
-    return AsnyPgVector(
-            connection_string=connection_string,
-            embedding_function=embeddings,
-            collection_name=collection_name,
-        )
+# Initialize a Pinecone client with your API key
+pc = Pinecone(api_key=PINECONE_CLIENT)
+EMBEDDING_DIMENSION = 1536
 
+def embed_chunks_and_upload_to_pinecone(chunks, index_name):
 
+    if index_name in pc.list_indexes().names():
+        pc.delete_index(index_name, timeout=1) 
+        print(f"Index {index_name} already exists, deleting it ...")
 
-class AsnyPgVector(PGVector):
+    pc.create_index(
+        name=index_name,
+        dimension=EMBEDDING_DIMENSION,
+        metric="cosine",
+        spec=ServerlessSpec(
+            cloud='aws', 
+            region='us-east-1'
+        ) 
+    )
 
-    async def get_all_ids(self) -> list[str]:
-        return await run_in_executor(None, super().get_all_ids)
+    index =pc.Index(index_name)
+    # print(index.describe_index_stats())
 
-    async def get_documents_by_ids(self, ids: list[str]) -> list[Document]:
-        return await run_in_executor(None, super().get_documents_by_ids, ids)
+    # Embedding each chunk and preparing for upload
+    print("\nEmbedding chunks using OpenAI ...")
+    embeddings_with_ids = []
+    for i, chunk in enumerate(chunks):
+        embedding = get_embedding(chunk)
+        embeddings_with_ids.append((str(i), embedding, chunk))
 
-    async def delete(
-        self,
-        ids: Optional[list[str]] = None,
-        collection_only: bool = False,
-        **kwargs: Any
-    ) -> None:
-        await run_in_executor(None, super().delete, ids, collection_only, **kwargs)
+    print("\nUploading chunks to Pinecone ...")
+    upserts = [(id, vec, {"chunk_text": text}) for id, vec, text in embeddings_with_ids]
+    index.upsert(vectors=upserts)
+
+    print(f"\nUploaded {len(chunks)} chunks to Pinecone index\n'{index_name}'.")
+
+def get_most_similar_chunks_for_query(query, index_name):
+    print("\nEmbedding query using OpenAI ...")
+    question_embedding = get_embedding(query)
+
+    print("\nQuerying Pinecone index ...")
+    index = pc.Index(index_name)
+    query_results = index.query(vector=question_embedding, top_k=2,include_metadata=True)
+    context_chunks = [x['metadata']['chunk_text'] for x in query_results['matches']]
+
+    return context_chunks   
+
+def delete_index(index_name):
+  pc.delete_index(name=index_name)
+  print(f"Index {index_name} deleted successfully")
+
