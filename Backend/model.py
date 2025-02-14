@@ -25,7 +25,7 @@ def chunk_text(text, chunk_size=200):
 
 def build_prompt(query, context_chunks):
     prompt_start = (
-        "Answer the question based on the context below. If you don't know the answer based on the context provided below, just respond with 'I don't know' instead of making up an answer. Don't start your response with the word 'Answer:'"
+        "Answer the question based on the context below in not more than 5 points. If you don't know the answer based on the context provided below, just respond with 'I don't know' instead of making up an answer. Don't start your response with the word 'Answer:'"
         "Context:\n"
     )
     prompt_end = (

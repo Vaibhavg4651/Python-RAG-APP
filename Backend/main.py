@@ -48,7 +48,9 @@ async def add_documents(file: UploadFile = File(...)):
     }
         return {"message": "Documents added successfully","response": response_json}
     except Exception as e:
+        print(str(e))
         raise HTTPException(status_code=500, detail=str(e))
+
 
 
 @app.delete("/delete-documents")
@@ -65,7 +67,7 @@ async def quick_response(msg: str):
     context_chunks = get_most_similar_chunks_for_query(msg, PINECONE_INDEX_NAME)
     prompt = build_prompt(msg, context_chunks)
     answer = get_llm_answer(prompt)
-    return context_chunks
+    return answer
 
 if __name__ == "__main__":
     import uvicorn

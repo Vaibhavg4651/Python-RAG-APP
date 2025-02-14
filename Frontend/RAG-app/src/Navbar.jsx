@@ -28,8 +28,13 @@ const Navbar = () => {
         }
       });
 
-      setIsUploaded(true);
-      localStorage.setItem('isUploaded', 'true');
+      if(res.status !== 200) {
+        throw new Error('Failed to upload file.');
+      }
+      else{
+        setIsUploaded(true);
+        localStorage.setItem('isUploaded', 'true');
+      }
       
     } catch (err) {
       console.error('File upload error:', err);

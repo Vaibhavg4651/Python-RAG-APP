@@ -1,6 +1,7 @@
 from OpenAI import get_embedding
 from pinecone import Pinecone, ServerlessSpec
 from config import PINECONE_CLIENT
+import time
 
 # Initialize a Pinecone client with your API key
 pc = Pinecone(api_key=PINECONE_CLIENT)
@@ -8,27 +9,34 @@ EMBEDDING_DIMENSION = 1536
 
 def embed_chunks_and_upload_to_pinecone(chunks, index_name):
 
-    if index_name in pc.list_indexes().names():
-        pc.delete_index(index_name, timeout=1) 
+    existing_indexes = pc.list_indexes()
+    if index_name in [index.name for index in existing_indexes]:
         print(f"Index {index_name} already exists, deleting it ...")
+        pc.delete_index(index_name)
+        # Wait for deletion to complete
+        time.sleep(20)
 
     pc.create_index(
         name=index_name,
         dimension=EMBEDDING_DIMENSION,
         metric="cosine",
         spec=ServerlessSpec(
-            cloud='aws', 
+            cloud='aws',
             region='us-east-1'
-        ) 
+        )
     )
 
-    index =pc.Index(index_name)
+    # Wait for index to be ready
+    time.sleep(20)
+    
+    index = pc.Index(index_name)
     # print(index.describe_index_stats())
 
     # Embedding each chunk and preparing for upload
     print("\nEmbedding chunks using OpenAI ...")
     embeddings_with_ids = []
     for i, chunk in enumerate(chunks):
+        print(chunk)
         embedding = get_embedding(chunk)
         embeddings_with_ids.append((str(i), embedding, chunk))
 
