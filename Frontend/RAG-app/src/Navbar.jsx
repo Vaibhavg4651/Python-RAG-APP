@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import axios from 'axios'
 import { Loader2, Upload, Check, FileText } from 'lucide-react'
 import Logo from "./assets/Logo.svg"
+import API_ENDPOINT from './config'
 
 const Navbar = () => {
   const [isUploaded, setIsUploaded] = useState(false);
@@ -22,7 +23,7 @@ const Navbar = () => {
     formData.append('file', file);
 
     try {
-      const res = await axios.post('http://127.0.0.1:8000/add-documents', formData, {
+      const res = await axios.post(`${API_ENDPOINT}/add-documents`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }

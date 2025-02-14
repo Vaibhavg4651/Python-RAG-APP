@@ -4,6 +4,7 @@ import Navbar from './Navbar'
 import ChatMessage from './Chatmessages';
 import axios from 'axios';
 import { Loader2 } from 'lucide-react';
+import API_ENDPOINT from './config';
 
 function App() {
   const [isUploaded, setIsUploaded] = useState(false);
@@ -29,7 +30,7 @@ function App() {
 
     try {
       // Call backend
-      const response = await axios.get(`http://127.0.0.1:8000/chat`, {
+      const response = await axios.get(`${API_ENDPOINT}/chat`, {
         params: { msg: inputMessage }
       });
 
