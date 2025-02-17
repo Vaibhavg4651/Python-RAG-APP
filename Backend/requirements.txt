@@ -1,6 +1,6 @@
 fastapi==0.111.0
 PyPDF2==3.0.1
-openai==1.30.5
+openai==1.63.2
 pinecone-client==4.1.0
 python-dotenv==1.0.1
 uvicorn==0.30.0
